@@ -1,58 +1,127 @@
 package mini_project1;
 
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.*;
+import java.util.Random;
+import java.util.ArrayList;
+
+
 
 public class HangManGame {
 
-
   public static void main(String[] args) throws FileNotFoundException {
+
     File f = new File("C:\\Users\\kimkd\\IdeaProjects\\IntroToOOP\\src\\mini_project1\\city.txt");
-// 기본 베이스 설정
-    System.out.println("Here's the question");
-    Scanner sc = new Scanner(f);
-    Scanner input = new Scanner(System.in);
-
+    Scanner in = new Scanner(f);
+    Scanner sc = new Scanner(System.in);
+    Random rd = new Random();
     ArrayList<String> word = new ArrayList<>();
-    while (sc.hasNext()) {
-      word.add(sc.nextLine());
+    ArrayList<String> guessed = new ArrayList<String>();
+
+
+
+    System.out.println("Here's the question");
+    // String array to store txt file keys
+
+    while (in.hasNext()) {
+      int count = 0;
+      word.add(in.nextLine());
+      count++;
+    }
+//    int random = r.nextInt(s.length);
+    int random = rd.nextInt(word.size());
+    String answer = word.get(random);
+
+    for (int i = 0; i < answer.length(); i++) {
+      System.out.print("_");
+      if (i == answer.length() - 1) {
+        System.out.println();
+      }
+    }
+    int lettersleft = answer.length();
+    String guess;
+
+
+    // 겜 시작!!
+
+
+    int count = 0;
+    while (lettersleft != 0) {
+      System.out.print("You are guessing: ");  // 여기가 정답 쓰고 뒤에 정답 저장
+      guess = sc.nextLine();
+      if (lettersleft != '/')
+        count++;
+
+      if (guessed.contains(guess) == false) {
+        guessed.add(guess);
+      }
+
+      lettersleft = answer.length();
+
+      for (int i = 0; i < answer.length(); i++) {
+        int checker = 1;
+
+        for (int j = 0; j < guessed.size(); j++) {
+
+          if (guessed.get(j).charAt(0) == answer.charAt(i)) {
+            System.out.print(guessed.get(j).charAt(0));
+            lettersleft--;
+            checker--;
+
+          }
+        }
+        if (checker == 1) {
+          System.out.print("_");
+        }
+
+      }
+      System.out.println();
+
+      System.out.print("You have guessed ("+count+") wrong letters"); // 틀린 글씨 저장 및 카운트
+      for (int i = 0; i < guessed.size(); i++) {
+        System.out.print(" " + guessed.get(i));
+      }
+      System.out.println();
     }
 
-    String hidden_text = word.get((int) Math.random() * word.size());
-    char[] textArray = hidden_text.toCharArray();
-
-    char[] myAnswer = new char[textArray.length];
-    for (int i = 0; i < textArray.length; i++) {
-      myAnswer[i] = '?';
-    }
+//      게임 끝
 
     boolean finished = false;
-    int count = 0;
-// 게임 플레이 설정
-    boolean done = true;
-    for (int i = 0; i < myAnswer.length; i++) {
-      if (myAnswer[i] == '?') {
-        System.out.print("_");
-        done = false;
-      } else {
-        System.out.print("You are guessing: " + myAnswer[i]);
+//    int count = 0;
+
+    while (finished == false) {
+//  변수 인풋 확인 씨발
+      String letter = in.next();
+      while (letter.length() != 1 || Character.isDigit(letter.charAt(0))) {
+//        System.out.println("에러다 씨발 인풋 에러 씨바거");
+        letter = in.next();
+      }
+// letter가 단어면 확인
+      boolean found = false;
+
+      if (lettersleft != '?') {
+        count++;
+      }
+
+      boolean done = true;
+      System.out.print("You have guessed" + count +" wrong letters"); // 틀린 글씨 저장 및 카운트
+
+
+      if (done) {
+        System.out.println("You win!");
+        System.out.println("\nYou have guessed"+in+"correctly");
+        finished = true;
+      }
+      if (count == 10) {
+        System.out.println("You lose!");
+        System.out.println("The correct word was"+in+"!" );
+        finished = true;
       }
     }
 
-    System.out.println("\nYou have guessed ("+count+")wrong letters:" + "여기에 틀린 글씨 저장");
-//    게임 끝 설정
-    if (done) {
-      System.out.println("You win!");
-      System.out.println("\nYou have guessed"+myAnswer+"correctly");
-      finished = true;
-    }
-    if (count == 10) {
-      System.out.println("You lose!");
-      System.out.println("The correct word was"+ Math.random()+"!" );
-      finished = true;
-    }
+
+
+
   }
+
 }
