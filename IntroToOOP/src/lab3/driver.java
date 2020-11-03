@@ -9,27 +9,31 @@ public class driver {
 
   public static void main(String[] args) {
 
-    ArrayList<piece> arr = new ArrayList<>();
-    piece k = new King();
-    piece q = new Queen();
-    piece r = new Rook();
-    piece b = new Bishop();
-    piece knight = new Knight();
-    piece pawn = new Pawn(true,true,"Queen");
+    ArrayList<Piece> arr = new ArrayList<>();
+    King k = new King(true);
+    Queen q = new Queen(true);
+    Rook r = new Rook(true);
+    Bishop b = new Bishop(true);
+    Knight knight = new Knight(true);
+    Pawn pawn = new Pawn(true);
+
+    ArrayList<Piece> piece = new ArrayList<>();
     arr.add(k);
     arr.add(q);
     arr.add(r);
     arr.add(b);
     arr.add(knight);
     arr.add(pawn);
-    for(int i =0; i < arr.size(); i ++){
-      arr.get(i).move();
+
+    for (Piece piece : pieces){
+      piece.move();
     }
-    piece p1 = new Pawn(true,true,"Queen");
-    piece p2 = new Pawn(true,false,"null");
-    piece p3 = new piece(1,false,false,"null");
-    piece p4 = new piece(1,false,true,"Queen");
-    piece p5 = new piece(1,true,true,"Knight");
+
+    Piece p1 = new Pawn(true,true,new Queen(true));
+    Piece p2 = new Pawn(true,false,null);
+    Piece p3 = new Pawn(false,false,null);
+    Piece p4 = new Pawn(false,true,new Queen(true));
+    Piece p5 = new Pawn(true,true,new Knight(true));
     System.out.println(p1.equals(p2));
     System.out.println(p1.equals(p4));
     System.out.println(p1.equals(p5));
